@@ -4,7 +4,7 @@ const address = document.getElementById("address");
 const date = document.getElementById("date");
 
 window.onload = () => {
-    name.innerHTML = "Rohit Rajpoot";
+    name.innerHTML = "Santosh kumar Morya";
     rollNo.innerHTML = "";
     address.innerHTML = "GLA University, Mathura";
     date.innerHTML = new Date().toDateString();
