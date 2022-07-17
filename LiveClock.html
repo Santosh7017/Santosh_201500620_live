@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live-Clock with Dynamic Greeting</title>
+    <link rel="stylesheet" href="./Clock.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+        * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Quicksand", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+  }
+  #time {
+    font-size: 8rem;
+    /* 1rem = 16px total 8x16=128px */
+    margin-bottom: 0rem;
+  }
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    margin-bottom: 0.5rem;
+    font-size: 3rem;
+    opacity: 0.5;
+  }
+    </style>
+  </head>
+
+
+
+
+  <body>
+    <time id="time"></time>
+    <h1 id="Welcome"></h1>
+    <h2 id="name" contenteditable="true"></h2>
+    <h3 id="date">Thu june 27 2022</h3>
+    
+    
+    
+    <script >
+      // Selector
+const time = document.getElementById("time");
+const Welcome = document.getElementById("Welcome");
+const name = document.getElementById("name");
+const date = document.getElementById("date");
+// shift+alt+Down Arrow to duplicate code
+
+//Event Listener
+
+name.addEventListener("keypress", setName);
+name.addEventListener("blur", setName);
+
+// Functions
+function showtime() {
+  let today = new Date();
+  let hour = today.getHours(); // 8
+  let min = today.getMinutes(); // 32
+  let sec = today.getSeconds(); // 23
+  let todaydate = today.toDateString(); // fri nov 6 2020
+
+  //am Pm Format
+  const amPm = hour > 12 ? "PM" : "AM";
+
+  //12hr Format
+  hour = hour % 12 || 12; // hour=12%12=0
+
+  // output time
+  time.innerHTML = `${addZero(hour)}<span>:</span>${addZero(
+    min
+  )}<span>:</span>${addZero(sec)} ${amPm}`;
+
+  date.innerHTML = `${todaydate}`;
+
+  //   hh:mm:ss AM (Required Time Format)
+  setTimeout(showtime, 1000);
+}
+// adding zero to a Number lessthan 10
+function addZero(n) {
+  return (parseInt(n, 10) < 10 ? "0" : "") + n;
+}
+function setWelcome() {
+  let today = new Date();
+  let hour = today.getHours(); //17
+
+  if (hour < 12) {
+    document.body.style.backgroundImage =
+      'url("morning.jpg")';
+    Welcome.innerHTML = "Good Morning";
+  } else if (hour < 18) {
+    document.body.style.backgroundImage =
+      'url("afternoon.jpg")';
+    Welcome.innerHTML = "Good Afternoon";
+  } else {
+    document.body.style.backgroundImage =
+      'url("night.jpg")';
+    Welcome.innerHTML = "Good Evening";
+    document.body.style.color = "white";
+  }
+}
+
+function getName() {
+    const MyName = prompt("Enter your name:-");
+  if (localStorage.getItem("myData") === null) {
+    if(MyName===''){
+      name.innerHTML = "[Enter Name]";
+    }
+    else{
+      name.innerHTML = MyName;
+    }
+      
+  } else {
+    // name.innerHTML = localStorage.getItem("myData");
+    if(MyName===''){
+      name.innerHTML = "[Enter Name]";
+    }
+    else{
+      name.innerHTML = MyName;
+    }
+  }
+}
+
+function setName(e) {
+  if (e.type === "keypress") {
+    if (e.keyCode == 13) {
+      localStorage.setItem("myData", e.target.innerHTML);
+      name.blur();
+    }
+  } else {
+    localStorage.setItem("myData", e.target.innerHTML);
+  }
+}
+
+getName();
+showtime();
+setWelcome();  
+    </script>
+  </body>
+</html>
